@@ -1,29 +1,35 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View,TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View,TouchableOpacity,Image } from 'react-native';
 import { AntDesign, Ionicons } from '@expo/vector-icons'
+import { ProgressBar } from 'react-native-paper';
 
 
 class Chatbot extends Component{
+
   state={
       Date: new Date(),
   };
 
+
   render(){
-      const {navigation}=this.props;
+      // const {navigation}=this.props;
+      const {route}=this.props;
+
+      console.log(route.params.uri)
       return(
         <View style={styles.container}>
           <View style={styles.title}>
             <TouchableOpacity style={{marginTop:52, marginLeft:28}} onPress={()=>this.props.navigation.push('Main')} >
               <AntDesign name="arrowleft" color='#000000' size={20}/>
             </TouchableOpacity>
-            <Text style={styles.text}>챗봇</Text>
+            <Text style={styles.text}>모머금</Text>
           </View>
           <View style={styles.contain}>
             <View style={styles.date}>
               <Text style={styles.datetext}>{this.state.Date.getFullYear()}년{this.state.Date.getMonth()+1}월{this.state.Date.getDate()}일</Text>
             </View>
             <View style={styles.message}>
-              <View style={{width:284, height:207}}></View>
+                {route.params.uri && <Image source={{ uri: route.params.uri }} style={styles.imgstyle} />}
               <View style={{alignItems: 'center'}}>
                 <Text style={styles.messatext}>얼마나 먹었는지 표시🧐</Text>
                 <View style={styles.result}></View>
@@ -33,7 +39,7 @@ class Chatbot extends Component{
               </View>
             </View>
             <View style={{flex:1}}>
-              <TouchableOpacity style={styles.addbutton} onPress={()=>this.props.navigation.navigate('Camera')}>
+              <TouchableOpacity style={styles.addbutton} onPress={()=>this.props.navigation.goBack()}>
                 <Text style={{color:'#FFFFFF'}}>추가하기</Text>
               </TouchableOpacity>
             </View>
@@ -85,7 +91,8 @@ const styles = StyleSheet.create({
       borderRadius:15,
       marginTop: 37,
       borderWidth:1,
-      borderColor:'#ABABAB'
+      borderColor:'#ABABAB',
+      alignItems: 'center'
     },
     date:{
       width:120,
@@ -122,6 +129,12 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       borderRadius:90,
       marginTop:14
+    },
+    imgstyle:{
+      width:284,
+      height:207,
+      marginTop:22,
+      borderRadius:15
     }
   });
   
