@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View,ScrollView, Image, TouchableOpacity} from 'react-native';
 import { AntDesign } from '@expo/vector-icons'
-import { ProgressBar, Colors } from 'react-native-paper';
+import { ProgressBar } from 'react-native-paper';
 
 class Main extends Component{
     state={
         kcal: 1578,
         Date: new Date(),
-        progressvalue: 0.7  //value: 0~1
+        progressvalue: 0.5 //value: 0~1
     };
 
     render(){
+        const {navigation}=this.props;
         return(
             <View style={{ backgroundColor:'#F4F4F4'}}>
                 <ScrollView>
@@ -36,8 +37,8 @@ class Main extends Component{
                         <ProgressBar progress={this.state.progressvalue} color='#B9BFEC' style={styles.progress}/>
                         <Text style={styles.kcal}>{this.state.kcal} Kcal</Text>
                     </View>
-                    <View style={[styles.graph,styles.border]}>
-                    </View>
+                    <TouchableOpacity style={[styles.graph,styles.border]} onPress={()=>this.props.navigation.navigate('Weekly')}>
+                    </TouchableOpacity>
                     <View style={[styles.food,styles.border]}>
                         <Text style={styles.foodfont}>최근 섭취 식품</Text>
                         <TouchableOpacity style={styles.plusbutton}>
