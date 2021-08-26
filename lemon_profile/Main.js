@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View,ScrollView, Image, TouchableOpacity} from 'react-native';
 import { AntDesign } from '@expo/vector-icons'
 import { ProgressBar } from 'react-native-paper';
+import { BarChart } from 'react-native-chart-kit';
 
 class Main extends Component{
     state={
@@ -12,6 +13,33 @@ class Main extends Component{
 
     render(){
         const {navigation}=this.props;
+        const graphdata={
+            labels:[this.state.Date.getDate()-5,this.state.Date.getDate()-4,this.state.Date.getDate()-3,this.state.Date.getDate()-2,this.state.Date.getDate()-1,this.state.Date.getDate()],
+            datasets:[
+                {
+                    data:[1500, 1450, 1000, 800, 1200, this.state.kcal],
+                    colors:[
+                        (opacity=1)=>'#CFCFCF',
+                        (opacity=1)=>'#CFCFCF',
+                        (opacity=1)=>'#CFCFCF',
+                        (opacity=1)=>'#CFCFCF',
+                        (opacity=1)=>'#CFCFCF',
+                        (opacity=1)=>'#1DAEFF',
+
+                    ]
+                }
+            ]
+        }
+        const chartConfig={ 
+            backgroundColor: '#FFFFFF',
+            backgroundGradientFrom: '#FFFFFF',
+            backgroundGradientTo: '#FFFFFF',
+            barRadius:15,
+            barpersentagge:0.1,
+            decimalPlaces: 0,
+            color: (opacity = 1) => '#e3e3e3',
+            labelColor:(opacity=1)=>'#CFCFCF',
+       };
         return(
             <View style={{ backgroundColor:'#F4F4F4'}}>
                 <ScrollView>
@@ -37,7 +65,10 @@ class Main extends Component{
                         <ProgressBar progress={this.state.progressvalue} color='#B9BFEC' style={styles.progress}/>
                         <Text style={styles.kcal}>{this.state.kcal} Kcal</Text>
                     </View>
-                    <TouchableOpacity style={[styles.graph,styles.border]} onPress={()=>this.props.navigation.navigate('Weekly')}>
+                    <TouchableOpacity style={[styles.graph,styles.border,styles.position]} onPress={()=>this.props.navigation.navigate('Weekly')}>
+                        <BarChart data={graphdata} width={340} height={165} yAxisSuffix=" kcal" withCustomBarColorFromData={true} flatColor={true} fromZero={true}
+                            showBarTops={false} chartConfig={chartConfig} style={{ marginVertical: 8, borderRadius: 16,}}
+                        />
                     </TouchableOpacity>
                     <View style={[styles.food,styles.border]}>
                         <Text style={styles.foodfont}>최근 섭취 식품</Text>
@@ -162,6 +193,10 @@ const styles = StyleSheet.create({
         height:199,
         flexDirection: 'row',
         justifyContent: 'space-between' //양쪽정렬
+    },
+    position:{
+        alignItems:'center',
+        justifyContent:'center',
     }
   });
   
